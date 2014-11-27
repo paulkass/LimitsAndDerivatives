@@ -1,0 +1,6 @@
+use algebra_program;
+
+insert into special_functions values ("sin", "Math.sin#"), ("cos", "Math.cos#"), ("abs", "Math.abs#");
+insert into special_functions values ("asin", "Math.asin#"), ("acos", "Math.acos#"), ("tan", "Math.tan#");
+insert into special_functions values ("atan", "Math.atan#"), ("ln", "Math.log#"), ("log", "Math.log10#");
+insert into special_functions values ("sign", "Math.sign#");
