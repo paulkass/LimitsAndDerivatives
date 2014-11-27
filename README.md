@@ -17,7 +17,9 @@ Use
     sin, cos, tan, asin, acos, atan, abs, ln, log, and sign
     To add more to the database, run the command in the following format
         insert into special_functions values ("<Name>", "<Replacement>")
-        use the # sign to represent the argument of the function in the Replacement
+        use the # sign to represent the argument of the function in the Replacement.
+	Look in the inserts file for examples.
+    The Replacement should be a JavaScript function, since the evaluating engine processes JS code.
         
 2) Parentheses should be used when dealing with "special" functions and raising an expression to a power.
 3) When raising an expression to a power, ALWAYS use parentheses. For example, x^2 won't work but x^(2) will work.

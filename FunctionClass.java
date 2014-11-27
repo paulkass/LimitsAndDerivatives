@@ -206,7 +206,7 @@ public class FunctionClass {
 			 Class.forName("com.mysql.jdbc.Driver");
 			 String database_name = "algebra_program";
 			 String username = "root";
-			 String password = "*********";
+			 String password = "Seraphima1";
 			 Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/".concat(database_name),
 					 username, password);
 			 Statement stmt = conn.createStatement();
