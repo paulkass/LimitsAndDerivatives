@@ -15,13 +15,18 @@ public class FunctionClass {
 	String special_function; // the string value of the special function is there is one
 	boolean is_special_function; // true if the function is special as shown in the database
 	BadFormatError bad_format_error = new BadFormatError("Function Formatted Incorrectly");
+	boolean is_factorial;
 	// general exception if the function is formatted improperly
 	
 	public FunctionClass(String value, char v) throws BadFormatError {
 		variable = v;
 		func_array = new FunctionClass[0];
 		string_value = value;
-		if (power_function(value)) { // is the function is a power function, analyze it in a special way
+		if (factorial_function(value)) {
+			is_factorial = true;
+			factorial_analyze(value);
+		}
+		else if (power_function(value)) { // is the function is a power function, analyze it in a special way
 			is_power_function = true;
           	power_analyze(value);
 		}
@@ -36,6 +41,20 @@ public class FunctionClass {
 			analyze(value);
 		}
 		
+	}
+
+	private void factorial_analyze(String value) {
+		String temp_string = value.substring(0, value.length()-1);
+		try {
+			analyze(temp_string);
+		} catch (Exception e) {System.out.println(e.getMessage());}
+	}
+
+	private boolean factorial_function(String value) {
+		boolean return_boolean = false;
+		if (value.charAt(value.length()-1)=='!')
+			return_boolean = true;
+		return return_boolean;
 	}
 
 	private void power_analyze(String s) {
@@ -112,7 +131,35 @@ public class FunctionClass {
 		String return_string = "";
 		ScriptEngineManager manager = new ScriptEngineManager();
 	    ScriptEngine engine = manager.getEngineByName("js");
-	    if (is_operator) {
+		if (is_factorial) {
+			String s = "";
+			for (FunctionClass aFunc_array : func_array) {
+				s = s.concat(aFunc_array.evaluate(value));
+			}
+			s = s.concat(";");
+			double limit = Double.NEGATIVE_INFINITY;
+			try {
+				limit = Double.valueOf(engine.eval(s).toString());
+			}
+			catch (Exception e) {
+				System.out.println(s);
+				System.out.println(e.getMessage());
+			}
+			String to_eval = "";
+			for (int i=1; i<=limit; i++) {
+				to_eval = to_eval.concat(i+"*");
+			}
+			to_eval = to_eval.concat("1");
+			try {
+				return_string =engine.eval(to_eval).toString();
+			}
+			catch (Exception e) {
+				System.out.println(s);
+				System.out.println(e.getMessage());
+			}
+
+		}
+	    else if (is_operator) {
 	    	return_string = string_value;
 	    }
 		else if (is_power_function) {
@@ -446,6 +493,9 @@ public class FunctionClass {
 				return_s = return_s.concat("^"+power.getFormula());
 			}
 			return_s = return_s.concat(")");
+			if (is_factorial) {
+				return_s = return_s.concat("!");
+			}
 		} else {
 			return_s = string_value;
 		}
