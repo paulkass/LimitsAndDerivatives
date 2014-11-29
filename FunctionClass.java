@@ -538,8 +538,10 @@ public class FunctionClass {
 		}
 		boolean are_we_done = false;
 		while (!are_we_done) {
-			if (thread_arr[0].are_we_done && thread_arr[1].are_we_done && thread_arr[2].are_we_done) {
+			//System.out.println(are_we_done);
+			if (thread_arr[0].are_we_done==true && thread_arr[1].are_we_done==true && thread_arr[2].are_we_done==true) {
 				are_we_done=true;
+				//System.out.println("hi");
 			}
 		}
 		for (int k=0; k<3; k++) {
