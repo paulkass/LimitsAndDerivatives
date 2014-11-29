@@ -4,7 +4,7 @@
 public class IntegrationThread extends Thread {
     FunctionClass function;
     double a, b, delta_x, overall_sum;
-    boolean are_we_done;
+    volatile boolean are_we_done;
     public IntegrationThread(double temp_a, double temp_b, double temp_delta_x, FunctionClass func) {
         a = temp_a;
         b = temp_b;
