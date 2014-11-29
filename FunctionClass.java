@@ -513,6 +513,45 @@ public class FunctionClass {
 		return l.evalLimit(z).replace("NaN", "Does Not Exist");
 	}
 
+	public double integrate(double partitions, double lower, double upper) {
+		double return_double = 0;
+		double delta_x = (lower+upper)/partitions;
+		System.out.println(delta_x);
+		if (Double.compare(delta_x, 0)==0) {
+			System.exit(0);
+		}
+		// temporary variables
+		// FROM HERE
+		double min = Math.min(lower, upper);
+		double max = Math.max(lower, upper);
+		// TO HERE
+		double counter = min;
+		int i = 0;
+		double spread = (min+max)/3;
+		IntegrationThread[] thread_arr = new IntegrationThread[3];
+		for (int k=0; k<3; k++) {
+			thread_arr[k] = new IntegrationThread(min+k*spread, min+(k+1)*spread, delta_x, this);
+			//System.out.println((min+(k+1)*spread)-(min+k*spread));
+		}
+		for (int k=0; k<3; k++) {
+			thread_arr[k].start();
+		}
+		boolean are_we_done = false;
+		while (!are_we_done) {
+			if (thread_arr[0].are_we_done && thread_arr[1].are_we_done && thread_arr[2].are_we_done) {
+				are_we_done=true;
+			}
+		}
+		for (int k=0; k<3; k++) {
+			return_double+=thread_arr[k].overall_sum;
+		}
+		return return_double;
+	}
+
+	public double accurateIntegration(double lower, double upper, int accuracy) {
+		return integrate(Math.pow(10.0, Double.valueOf(accuracy)), lower, upper);
+	}
+
 	/**
 	 * @return the string_value
 	 */
